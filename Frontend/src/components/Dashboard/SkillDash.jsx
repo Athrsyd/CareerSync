@@ -4,7 +4,6 @@ import { useCareer } from '../../context/CareerContext';
 import CareerOptions from '../../data/careerOptions.json'
 import { Link } from 'react-router-dom';
 
-
 const Skill = () => {
   const { skillsMastery } = useCareer();
 
@@ -26,13 +25,11 @@ const Skill = () => {
   });
 
   return (
-    <>
-      <div className="overflow-x-scroll self-start w-13/20 flex flex-row mt-5 gap-8">
-        {SkillItem.map((item) => (
-          <SkillDisplay key={item.id} data={item} />
-        ))}
-      </div>
-    </>
+    <div className="overflow-x-auto flex flex-row gap-4 pb-2 mt-4">
+      {SkillItem.map((item) => (
+        <SkillDisplay key={item.id} data={item} />
+      ))}
+    </div>
   );
 }
 
@@ -40,36 +37,38 @@ const SkillDash = ({ data }) => {
   const { skillsMastery } = useCareer();
 
   return (
-    <>
-      <h1 className="self-start text-2xl font-bold font-montserrat text-[#021124]">
+    <div className="w-full">
+      <h1 className="text-xl sm:text-2xl font-bold font-montserrat text-[#021124]">
         Skill yang sudah dikuasai
       </h1>
-      <div className="flex flex-row max-w-full items-center gap-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
         {skillsMastery && skillsMastery.length > 0 ? (
-          <Skill />
+          <div className="flex-1 min-w-0">
+            <Skill />
+          </div>
         ) : (
-          <div className="overflow-x-scroll self-start w-13/20 flex flex-col justify-center items-center my-10 gap-2">
-            <p className="text-gray-500">Belum ada skill yang dikuasai.</p>
+          <div className="flex flex-col justify-center items-center my-6 gap-2 flex-1">
+            <p className="text-gray-500 text-sm">Belum ada skill yang dikuasai.</p>
             <Link to='/dashboard/project'>
-              <button className="px-2 py-1 bg-blue-500 text-sm text-white rounded-lg hover:bg-blue-600">
+              <button className="px-3 py-1.5 bg-blue-500 text-sm text-white rounded-lg hover:bg-blue-600">
                 Selesaikan project untuk menguasai skill!
               </button>
             </Link>
           </div>
         )}
-        <div className="flex flex-col w-1/4 justify-center items-center gap-2 mt-5 ml-8 md:mr-4 lg:mr-0">
-          <h1 className="md:text-[22px] lg:text-3xl font-semibold font-montserrat text-[#021124]">
+        <div className="flex flex-row sm:flex-col w-full sm:w-auto justify-center items-center gap-2 mt-2 sm:mt-4 shrink-0">
+          <h1 className="text-base sm:text-xl lg:text-2xl font-semibold font-montserrat text-[#021124] text-center">
             Kamu berada di
           </h1>
-          <h1 className="md:text-[22px] lg:text-2xl font-semibold font-montserrat bg-primary px-4 py-1 rounded-lg text-white">
+          <h1 className="text-base sm:text-xl font-semibold font-montserrat bg-primary px-4 py-1 rounded-lg text-white">
             {data?.level || 'N/A'} level
           </h1>
-          <p className="md:text-md lg:text-lg font-[450] font-montserrat text-[#021124]">
+          <p className="hidden sm:block text-sm sm:text-base font-[450] font-montserrat text-[#021124] text-center">
             Terus tingkatkan skill-mu
           </p>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

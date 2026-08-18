@@ -6,6 +6,8 @@ import useManagePortfolio from '../../hooks/UseManagePortfolio'
 import { PORTFOLIO_STYLES, PORTFOLIO_TIPS } from '../../data/portfolioData'
 import { useNavigate } from 'react-router-dom'
 import PortfolioHooks from '../../hooks/PortfolioHooks'
+import NavDash from '../../components/Dashboard/NavDash'
+import Navbar from '../../components/Global/Navbar'
 
 
 const ManagePortfolio = () => {
@@ -117,7 +119,10 @@ const ManagePortfolio = () => {
     }
 
     return (
-        <div className="ml-45 mr-7 pb-10 w-full">
+        <>
+        <NavDash />
+        <div className="md:ml-16 lg:ml-45 pb-24 md:pb-10 w-full overflow-x-hidden">
+            <Navbar />
             <div className="mt-8 mb-8">
                 <h1 className="text-3xl font-bold text-[#021124] font-montserrat mb-2">
                     {mode === 'update' ? 'Perbarui Portfolio Anda' : 'Buat Portfolio Anda'}
@@ -130,7 +135,7 @@ const ManagePortfolio = () => {
                 </p>
             </div>
 
-            <div className="flex flex-row gap-8">
+            <div className="flex flex-col lg:flex-row gap-6 px-4 sm:px-6">
                 {/* Form Section */}
                 <div className="flex-1">
                     <div className="bg-white/10 rounded-3xl backdrop-blur-md shadow-xl outline-2 outline-primary p-8">
@@ -529,7 +534,9 @@ const ManagePortfolio = () => {
                     </div>
                 </div>
             )}
+        {/* </div> */}
         </div>
+        </>
     )
 }
 

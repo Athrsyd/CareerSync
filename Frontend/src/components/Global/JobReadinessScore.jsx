@@ -15,89 +15,43 @@ const JobReadinessScore = ({ score = 78, role = "Web Developer" }) => {
     const topPercent = Math.max(1, 100 - score);
 
     if (!score || !role) {
-        return <Skeleton width={300} height={230} style={{borderRadius:'1rem'}}/>;
+        return <Skeleton width={280} height={200} style={{ borderRadius: '1rem' }} />;
     }
+
     return (
-        <div className="bg-white/10 rounded-2xl outline-2 outline-primary shadow-xl backdrop-blur-md p-6 flex flex-col items-center gap-2 md:w-160 lg:w-72 h-full">
-            <h2 className="md:font-semibold text-base font-montserrat lg:font-[450] text-[#06275A] tracking-tight">
+        <div className="bg-white/10 rounded-2xl outline-2 outline-primary shadow-xl backdrop-blur-md p-5 flex flex-col items-center gap-2 w-full lg:w-64">
+            <h2 className="font-semibold text-sm sm:text-base font-montserrat text-[#06275A] tracking-tight text-center">
                 Score Kesiapan Kerja
             </h2>
-            <div className="">
-                <svg width="100" height="100" viewBox="0 0 140 140">
-                    <circle
-                        cx="70"
-                        cy="70"
-                        r="54"
-                        fill="none"
-                        stroke="#e2e8f0"
-                        strokeWidth="12"
-                    />
+            <div>
+                <svg width="90" height="90" viewBox="0 0 140 140">
+                    <circle cx="70" cy="70" r="54" fill="none" stroke="#e2e8f0" strokeWidth="12" />
                     <circle
                         ref={arcRef}
-                        cx="70"
-                        cy="70"
-                        r="54"
-                        fill="none"
-                        stroke="#1e3a5f"
-                        strokeWidth="12"
+                        cx="70" cy="70" r="54"
+                        fill="none" stroke="#1e3a5f" strokeWidth="12"
                         strokeLinecap="round"
                         strokeDasharray={CIRCUMFERENCE}
                         strokeDashoffset={CIRCUMFERENCE * (1 - score / 100)}
                         transform="rotate(-90 70 70)"
                     />
-                    <text
-                        x="70"
-                        y="78"
-                        textAnchor="middle"
-                        fontSize="25"
-                        fontWeight="500"
-                        fill="#1e3a5f"
-                    >
+                    <text x="70" y="78" textAnchor="middle" fontSize="25" fontWeight="500" fill="#1e3a5f">
                         {score > 100 ? '100' : score.toFixed(0)}%
                     </text>
                 </svg>
             </div>
-            <p className="md:text-md lg:text-[14px] font-montserrat text-[#06275A] md:w-[50%] lg:w-full text-center leading-relaxed">
+            <p className="text-xs sm:text-[13px] font-montserrat text-[#06275A] text-center leading-relaxed">
                 {score >= 100 ? (
                     <span className="font-semibold text-slate-800">Selamat! Anda siap masuk ke dunia kerja!</span>
                 ) : <>
-                    Anda butuh peningkatan skill<span className="font-semibold text-slate-800">{" "}{topPercent.toFixed(0)}%</span>{" "}
-                    untuk siap menjadi {" "}
+                    Anda butuh peningkatan skill
+                    <span className="font-semibold text-slate-800">{" "}{topPercent.toFixed(0)}%</span>{" "}
+                    untuk siap menjadi{" "}
                     <span className="font-semibold text-slate-800">{role}</span>
                 </>}
-            </p >
-        </div >
+            </p>
+        </div>
     );
 }
 
 export default JobReadinessScore
-
-// const JobReadinessScore = ({ score = 78, role = "Web Developer" }) => {
-//     const topPercent = Math.max(1, 100 - score);
-
-//     return (
-//         <div className="bg-white rounded-2xl border border-gray-200 p-6 flex flex-col items-center gap-4 w-56">
-//             <h2 className="text-sm font-medium text-gray-800 text-center">
-//                 Job Readiness Score
-//             </h2>
-
-//             <div
-//                 className="w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300"
-//                 style={{
-//                     background: `conic-gradient(#5482B4 ${score}%, #e2e8f0 0)`,
-//                 }}
-//             >
-//                 <div className="w-19 h-19 rounded-full bg-white flex items-center justify-center">
-//                     <span className="text-xl font-medium text-[#1e3a5f]">{score}%</span>
-//                 </div>
-//             </div>
-
-//             <p className="text-[13px] text-gray-500 text-center leading-relaxed">
-//                 Top <strong className="text-gray-800">{topPercent}%</strong> closer to becoming a{" "}
-//                 <strong className="text-gray-800">{role}</strong>
-//             </p>
-//         </div>
-//     );
-// };
-
-// export default JobReadinessScore;
