@@ -2,16 +2,15 @@ import { useEffect, useState } from 'react'
 import MoneyBag from '../../assets/moneyBag.svg';
 import DiagramHook from '../../hooks/DiagramHooks';
 import { useCareer } from '../../context/CareerContext';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const SalaryAvg = () => {
     const { salary, salaryIndustry } = DiagramHook();
     const [region, setRegion] = useState('Jakarta');
-    const [dispaySalary, setDisplaySalary] = useState('Loading...');
     const { careerData } = useCareer();
 
-    useEffect(() => {
-        setDisplaySalary(salary ? salary[`avgSalary${region}`] : 'Data not available');
-    }, [region, salary]);
+    const displaySalary = salary ? salary[`avgSalary${region}`] : null;
 
     useEffect(() => { salaryIndustry(); }, []);
 
@@ -30,7 +29,11 @@ const SalaryAvg = () => {
             </div>
             <div className="flex flex-col justify-center items-center mx-auto rounded-xl p-5 text-primary">
                 <div className="flex flex-col items-start gap-1">
-                    <h1 className='font-bold text-xl sm:text-2xl'>{dispaySalary}</h1>
+                    {!careerData ? (
+                        <Skeleton width={140} height={28} />
+                    ) : (
+                        <h1 className='font-bold text-xl sm:text-2xl'>{displaySalary || 'Data tidak tersedia'}</h1>
+                    )}
                     <p className='text-base text-gray-500'>/bulan</p>
                 </div>
             </div>

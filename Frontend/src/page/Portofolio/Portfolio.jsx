@@ -3,6 +3,7 @@ import { use, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import PortfolioHooks from '../../hooks/PortfolioHooks'
 import Template2 from './Template/Template2';
+import PortfolioSkeleton from './PortfolioSkeleton';
 import { useUser } from '../../context/UserContext';
 import { useCareer } from '../../context/CareerContext';
 import CareerOptions from '../../data/careerOptions.json';
@@ -103,11 +104,7 @@ const Portfolio = () => {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {loading && (
-                <div className="flex items-center justify-center h-screen">
-                    <div className="text-lg font-semibold text-gray-600">Loading portfolio...</div>
-                </div>
-            )}
+            {loading && <PortfolioSkeleton />}
 
             {error && (
                 <div className="p-6 bg-red-100 border border-red-400 text-red-700 rounded">

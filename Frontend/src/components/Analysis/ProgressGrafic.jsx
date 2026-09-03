@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import Proggress from '../../assets/progressIcon.svg'
 import DiagramHooks from '../../hooks/DiagramHooks'
 import { Line } from 'react-chartjs-2';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -25,7 +27,7 @@ ChartJS.register(
 );
 
 const ProgressGrafic = () => {
-    const { progressData, progressUser } = DiagramHooks();
+    const { progressData, progressUser, loading } = DiagramHooks();
 
     useEffect(() => {
         progressUser();
@@ -116,7 +118,9 @@ const ProgressGrafic = () => {
                 </div>
             </div>
             <div className="w-full h-96 bg-white rounded-xl p-7 mt-5">
-                {chartData ? (
+                {loading ? (
+                    <Skeleton height="100%" style={{ borderRadius: '0.75rem' }} />
+                ) : chartData ? (
                     <Line data={chartData} options={options} />
                 ) : (
                     <p className="text-center text-gray-400">No progress data available</p>

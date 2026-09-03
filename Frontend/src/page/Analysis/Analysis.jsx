@@ -73,7 +73,7 @@ const Analysis = () => {
     return (
         <>
             <NavDash />
-            <div className='md:ml-16 lg:ml-40 overflow-x-hidden pb-24 md:pb-5'>
+            <div className='md:ml-[84px] lg:ml-[180px] overflow-x-hidden min-w-0 pb-24 md:pb-5'>
                 <Navbar />
                 <div className="px-4 sm:px-6 lg:px-8 mt-4">
                     <HeaderAnalysis
@@ -105,7 +105,6 @@ const Analysis = () => {
                         </>
                     )}
                 </div>
-                <br />
             </div>
         </>
     )

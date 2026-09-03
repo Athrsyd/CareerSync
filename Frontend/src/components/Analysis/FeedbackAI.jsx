@@ -1,5 +1,7 @@
 import React from 'react'
 import IconAI from '../../assets/IconAI.svg';
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const FeedbackAI = ({ result, loading }) => {
     return (
@@ -16,7 +18,12 @@ const FeedbackAI = ({ result, loading }) => {
                 </div>
             </div>
             <div className="text-sm bg-white rounded-xl p-4 sm:p-6 text-gray-500 max-h-52 overflow-y-auto">
-                {loading && <p>AI sedang menganalisis...</p>}
+                {loading && (
+                    <div className="flex flex-col gap-2">
+                        <Skeleton count={3} />
+                        <Skeleton width="70%" />
+                    </div>
+                )}
                 {!loading && result && <pre className="whitespace-pre-wrap text-sm">{result}</pre>}
                 {!loading && !result && <p>Tekan tombol "Start Analysis" untuk melihat hasil AI.</p>}
             </div>

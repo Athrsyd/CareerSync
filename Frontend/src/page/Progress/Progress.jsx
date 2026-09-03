@@ -54,7 +54,7 @@ const Progress = () => {
   return (
     <>
       <NavDash />
-      <main className="md:ml-16 lg:ml-48 overflow-x-hidden pb-24 md:pb-5">
+      <main className="md:ml-[84px] lg:ml-[180px] overflow-x-hidden min-w-0 pb-24 md:pb-5">
         <Navbar />
         <div className="flex flex-col mt-6 px-4">
           <TitleProgress />

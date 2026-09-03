@@ -11,7 +11,7 @@ const Navbar = () => {
     const { careerData } = useCareer();
 
     return (
-        <div className="flex flex-row items-center justify-between gap-2 px-4 py-3 w-full">
+        <div className="flex flex-row items-center justify-between gap-2 px-4 py-3 w-full overflow-x-hidden min-w-0">
             {/* Search bar */}
             <div className="relative flex-1 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-xl mt-0">
                 <input

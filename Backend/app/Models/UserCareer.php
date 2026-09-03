@@ -18,6 +18,7 @@ class UserCareer extends Model
 
     protected $casts = [
         'skills_mastery' => 'array',
+        'ever_analyzed' => 'boolean',
     ];
 
     public function user()

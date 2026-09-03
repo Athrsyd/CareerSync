@@ -121,7 +121,7 @@ const ManagePortfolio = () => {
     return (
         <>
         <NavDash />
-        <div className="md:ml-16 lg:ml-45 pb-24 md:pb-10 w-full overflow-x-hidden">
+        <div className="md:ml-21 lg:ml-45 pb-24 md:pb-10 overflow-x-hidden min-w-0 px-4 sm:px-6 max-w-full">
             <Navbar />
             <div className="mt-8 mb-8">
                 <h1 className="text-3xl font-bold text-[#021124] font-montserrat mb-2">
@@ -135,9 +135,9 @@ const ManagePortfolio = () => {
                 </p>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-6 px-4 sm:px-6">
+            <div className="flex flex-col xl:flex-row gap-6">
                 {/* Form Section */}
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                     <div className="bg-white/10 rounded-3xl backdrop-blur-md shadow-xl outline-2 outline-primary p-8">
                         {error && (
                             <div className="mb-6 p-4 bg-red-100 border-2 border-red-400 rounded-xl">
@@ -410,7 +410,7 @@ const ManagePortfolio = () => {
                 </div>
 
                 {/* Preview Section */}
-                <div className="w-80 h-full">
+                <div className="w-full xl:w-80 xl:shrink-0 min-w-0 max-w-full h-full">
                     <div className="bg-white/10 rounded-3xl backdrop-blur-md shadow-xl outline-2 outline-primary p-8 sticky top-20">
                         <h3 className="text-xl font-bold text-[#021124] mb-6">
                             Pratinjau Portfolio

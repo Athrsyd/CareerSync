@@ -20,7 +20,7 @@ const Dashboard = () => {
     <>
       <NavDash />
       {/* md: sidebar w-16, lg: sidebar w-40 | mobile: bottom nav → add pb-20 */}
-      <main className="md:ml-16 lg:ml-40 overflow-x-hidden pb-24 md:pb-5">
+      <main className="md:ml-[84px] lg:ml-[180px] overflow-x-hidden min-w-0 pb-24 md:pb-5">
         <Navbar />
         <div className="flex flex-col items-center mt-6 px-4">
           <WelcomeDash user={user} data={careerData} />

@@ -95,9 +95,9 @@ const NavDash = () => {
     <>
       {/* ── Desktop / Tablet Sidebar (md+) ── */}
       <aside className="hidden md:flex bg-nav m-3 h-[96%] rounded-2xl md:w-16 lg:w-40 border-t-0 fixed left-0 top-0 z-50">
-        <div className="flex w-full h-full flex-col items-center justify-start gap-5 py-6">
+        <div className="flex w-full h-full flex-col items-center justify-start gap-7 lg:gap-8 py-8 lg:py-10">
           {/* Logo */}
-          <div className="flex flex-row justify-center items-center mb-4 w-full">
+          <div className="flex flex-row justify-center items-center mb-2 w-full">
             <Link to="/dashboard" className="flex items-center gap-2">
               <img src={Logo} alt="logo" className="w-8 h-8" />
               <h1 className="hidden lg:block text-[12px] font-bold text-primary font-inclusive-sans mt-2 text-center">
@@ -106,17 +106,19 @@ const NavDash = () => {
             </Link>
           </div>
 
-          {NavIcon.map((item) => (
-            <Link to={item.path} key={item.id} className="w-full md:pl-4 lg:pl-4">
-              <SidebarIcon
-                item={item}
-                onClick={() => setMenuActive(item.id)}
-                menuActive={menuActive}
-              />
-            </Link>
-          ))}
+          <div className="flex flex-col items-center gap-3 lg:gap-4 w-full">
+            {NavIcon.map((item) => (
+              <Link to={item.path} key={item.id} className="w-full md:pl-4 lg:pl-4">
+                <SidebarIcon
+                  item={item}
+                  onClick={() => setMenuActive(item.id)}
+                  menuActive={menuActive}
+                />
+              </Link>
+            ))}
+          </div>
 
-          <div className="md:w-12 lg:w-35 h-[1.25px] bg-primary mt-auto"></div>
+          <div className="md:w-12 lg:w-35 h-[1.25px] bg-primary mt-auto mb-2"></div>
           <div onClick={Logout} className="flex flex-row items-center lg:justify-start lg:w-35 h-10 md:pl-0 lg:pl-2
             cursor-pointer hover:bg-white hover:scale-105 transition-all ease-in-out duration-300 rounded-full w-full">
             <div className="flex flex-col justify-center items-center h-12 w-full lg:w-12">
