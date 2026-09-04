@@ -22,7 +22,7 @@ Route::prefix('v1')->group(function () {
         Route::put('/career/{id}', [UserCareerController::class, 'UpdateCareer']);
 
         Route::post('/portfolio', [PortfolioController::class, 'Create']);
-        Route::put('/portfolio', [PortfolioController::class, 'Update']);
+        Route::put('/portfolio/{id}', [PortfolioController::class, 'Update']);
 
         Route::get('/progress', [ProgressController::class, 'index']);
         Route::post('/progress', [ProgressController::class, 'store']);

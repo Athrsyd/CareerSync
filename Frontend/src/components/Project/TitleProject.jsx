@@ -1,25 +1,22 @@
-import React, { use } from 'react'
+import React from 'react'
 
 const TitleProject = ({ career, project }) => {
-  // const {projectTitle} = useProjectTitle();  ;
   return (
-    <>
-      <div className="flex flex-row items-center gap-4 w-full justify-center">
-        <div className="flex flex-col w-4/5">
-          <h1 className="text-3xl font-bold text-black font-montserrat leading-12">
-            {project?.title || null}
-          </h1>
-          <h2 className="md:text-xs lg:text-sm font-[450] text-black/50 font-montserrat">
-            {project?.description || null}
-          </h2>
-        </div>
-        <div className="w-1/5">
-          <h1 className="text-center font-montserrat font-semibold text-[#06275A] bg-nav px-4 py-2 rounded-full md:text-[10px] lg:text-sm ml-auto">
-            {career?.career_name || null}
-          </h1>
-        </div>
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full">
+      <div className="flex flex-col flex-1 min-w-0">
+        <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-black font-montserrat leading-tight">
+          {project?.title || null}
+        </h1>
+        <h2 className="text-xs sm:text-sm font-medium text-black/50 font-montserrat mt-1">
+          {project?.description || null}
+        </h2>
       </div>
-    </>
+      <div className="shrink-0">
+        <span className="inline-block font-montserrat font-semibold text-[#06275A] bg-nav px-4 py-1.5 rounded-full text-xs sm:text-sm">
+          {career?.career_name || null}
+        </span>
+      </div>
+    </div>
   );
 }
 

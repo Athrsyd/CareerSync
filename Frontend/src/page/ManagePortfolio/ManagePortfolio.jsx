@@ -66,6 +66,7 @@ const ManagePortfolio = () => {
     const handleChange = (e) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
+        console.log(`Field changed: ${name} = ${value}`)
     }
 
     const handleFileChange = (e) => {
@@ -91,6 +92,7 @@ const ManagePortfolio = () => {
 
         let success
         if (mode === 'update' && existingPortfolioId) {
+            console.log(formData)
             success = await updatePortfolio(formData, existingPortfolioId)
         } else {
             success = await submitPortfolio(formData)
@@ -121,7 +123,7 @@ const ManagePortfolio = () => {
     return (
         <>
         <NavDash />
-        <div className="md:ml-21 lg:ml-45 pb-24 md:pb-10 overflow-x-hidden min-w-0 px-4 sm:px-6 max-w-full">
+        <div className="md:ml-[84px] lg:ml-[180px] pb-24 md:pb-10 overflow-x-hidden min-w-0 px-4 sm:px-6 max-w-full">
             <Navbar />
             <div className="mt-8 mb-8">
                 <h1 className="text-3xl font-bold text-[#021124] font-montserrat mb-2">
@@ -349,6 +351,10 @@ const ManagePortfolio = () => {
                                             onClick={() => {
                                                 setSelectedStyle(style.id)
                                                 setFormData(prev => ({ ...prev, style: style.id }))
+                                                setTimeout(() => {
+                                                    // console.log(`Style selected: ${style.id}`)
+                                                    console.log(`Style selected: ${formData.style}`)
+                                                }, 100)
                                             }}
                                             className={`relative p-4 rounded-2xl cursor-pointer transition-all duration-300 border-2 ${selectedStyle === style.id
                                                 ? 'border-primary bg-primary/10 shadow-lg'
@@ -385,9 +391,6 @@ const ManagePortfolio = () => {
 
                             {/* Submit Button */}
                             <div className="mt-8 flex gap-4 flex-col">
-                                {selectedStyle !== 'style1' && (
-                                    <p className=' font-semibold text-center text-yellow-500'> mohon maaf untuk saat ini, anda hanya bisa menggunakan style 1</p>
-                                )}
                                 <div className="flex flex-row gap-5">
 
                                     <button

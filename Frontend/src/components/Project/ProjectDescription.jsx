@@ -1,17 +1,15 @@
 import React from 'react'
 
-const ProjectDescription = ({project}) => {
+const ProjectDescription = ({ project }) => {
   return (
-    <>
-      <div className="flex flex-col gap-4 w-full">
-        <h1 className="text-3xl font-bold font-montserrat text-black tracking-tight leading-3">
-          Instruksi Pengerjaan
-        </h1>
-        <p className="text-lg mt-2 font-montserrat w-93/100 text-justify indent-4  text-black/50 leading-6 font-medium">
-          {project?.instruction || null}
-        </p>
-      </div>
-    </>
+    <div className="flex flex-col gap-3 w-full">
+      <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold font-montserrat text-black">
+        Instruksi Pengerjaan
+      </h1>
+      <p className="text-sm sm:text-base lg:text-lg font-montserrat text-black/50 leading-relaxed text-justify indent-4 font-medium">
+        {project?.instruction || null}
+      </p>
+    </div>
   );
 }
 

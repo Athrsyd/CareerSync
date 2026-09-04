@@ -25,7 +25,9 @@ class Portfolio extends Model
         'phone_number',
         'linkedin_link',
         'instagram_link',
-        'address'
+        'address',
+        'github_link',
+        'style'
     ];
 
     public function user()

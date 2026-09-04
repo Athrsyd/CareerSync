@@ -31,7 +31,7 @@ const useManagePortfolio = () => {
         try {
             const token = localStorage.getItem('tokenCareerSync')
             const data = new FormData()
-            
+
             // Debug: log form data sebelum kirim
             console.log('Submitting form data:', {
                 fullname: formData.fullname,
@@ -40,9 +40,9 @@ const useManagePortfolio = () => {
                 career_id: formData.career_id,
                 photo: formData.photo?.name || 'no photo'
             })
-            
+
             const stringFields = ['fullname', 'about_me', 'address', 'education', 'hobbies', 'experience', 'email', 'linkedin_link', 'instagram_link', 'phone_number', 'career_id', 'user_id', 'style']
-            
+
             stringFields.forEach(key => {
                 if (formData[key] !== null && formData[key] !== '') {
                     data.append(key, String(formData[key]))
@@ -66,15 +66,15 @@ const useManagePortfolio = () => {
             return true
         } catch (err) {
             let errorMessage = 'Gagal membuat portfolio'
-            
+
             if (err.response?.data?.message) {
-                errorMessage = typeof err.response.data.message === 'string' 
-                    ? err.response.data.message 
+                errorMessage = typeof err.response.data.message === 'string'
+                    ? err.response.data.message
                     : 'Terjadi kesalahan pada server'
             } else if (err.message) {
                 errorMessage = err.message
             }
-            
+
             setError(errorMessage)
             console.error('Error creating portfolio:', err)
             return false
@@ -104,25 +104,26 @@ const useManagePortfolio = () => {
         try {
             const token = localStorage.getItem('tokenCareerSync')
             const data = new FormData()
-            
+
             console.log('Updating portfolio:', portfolioId)
-            
+
             const stringFields = ['fullname', 'about_me', 'address', 'education', 'hobbies', 'experience', 'email', 'linkedin_link', 'instagram_link', 'phone_number', 'career_id', 'user_id', 'style']
-            
+
             stringFields.forEach(key => {
                 if (formData[key] !== null && formData[key] !== '') {
                     data.append(key, String(formData[key]))
                 }
             })
 
+            data.append('_method', 'PUT')
+
             if (formData.photo && formData.photo instanceof File) {
                 data.append('photo', formData.photo)
             }
-
+            console.log('Portfolio form data:', Object.fromEntries(data.entries()))
             const response = await API.post(`/portfolio/${portfolioId}`, data, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data',
                 }
             })
 
@@ -132,15 +133,15 @@ const useManagePortfolio = () => {
             return true
         } catch (err) {
             let errorMessage = 'Gagal memperbarui portfolio'
-            
+
             if (err.response?.data?.message) {
-                errorMessage = typeof err.response.data.message === 'string' 
-                    ? err.response.data.message 
+                errorMessage = typeof err.response.data.message === 'string'
+                    ? err.response.data.message
                     : 'Terjadi kesalahan pada server'
             } else if (err.message) {
                 errorMessage = err.message
             }
-            
+
             setError(errorMessage)
             console.error('Error updating portfolio:', err)
             return false

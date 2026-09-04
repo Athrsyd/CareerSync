@@ -4,14 +4,16 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 const WelcomeDashSkeleton = () => {
   return (
-    <Skeleton 
-      className=" md:w-160 lg:w-180 md:h-60 lg:h-60 rounded-2xl shadow-xl backdrop-blur-md flex flex-col px-10 bg-primary" 
-    width={690}
-    height={230}
-    style={{
-        borderRadius: '1rem'
-    }}
-    />
+    <div className="flex flex-col lg:flex-row gap-6 w-full">
+      {/* Main welcome card skeleton */}
+      <div className="flex-1 min-h-52 rounded-2xl overflow-hidden">
+        <Skeleton height={210} style={{ borderRadius: '1rem', display: 'block' }} />
+      </div>
+      {/* Score card skeleton */}
+      <div className="w-full lg:w-64 shrink-0">
+        <Skeleton height={210} style={{ borderRadius: '1rem', display: 'block' }} />
+      </div>
+    </div>
   )
 }
 
