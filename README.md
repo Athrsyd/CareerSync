@@ -11,7 +11,7 @@ CareerSync adalah platform berbasis web yang dirancang untuk membantu pengguna m
 **Kata Bu Kuri kita harus DUMOR – SMK Negeri 26 Jakarta**
 
 | Nama | Role |
-|---|---|---|
+|---|---|
 | Alif Athaullah Rasyad | Backend Developer |
 | Khuzaefah Hauna | UI/UX Designer | 
 | Lutfi Idham Puro | Frontend Developer | 
