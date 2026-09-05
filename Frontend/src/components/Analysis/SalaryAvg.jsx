@@ -24,12 +24,12 @@ const SalaryAvg = () => {
         <div className="w-full sm:w-1/2 flex flex-col bg-secondary/90 rounded-xl p-4 sm:p-5 gap-4">
             {/* Header */}
             <div className="flex flex-row items-center gap-3">
-                <div className="w-10 h-10 flex items-center justify-center bg-green-200 rounded-full shrink-0">
-                    <img src={MoneyBag} alt="Money" width="22" height="22" />
+                <div className="w-15 h-15 flex items-center justify-center bg-green-200 rounded-full shrink-0">
+                    <img src={MoneyBag} alt="Money" width="40" height="40" />
                 </div>
                 <div>
-                    <h1 className="font-bold text-base sm:text-lg leading-tight">Rata-rata Gaji</h1>
-                    <p className="text-xs text-gray-500">{careerData?.career_name || 'Web Developer'}</p>
+                    <h1 className="font-bold text-lg sm:text-2xl leading-tight">Rata-rata Gaji</h1>
+                    <p className="text-lg text-gray-500">{careerData?.career_name || 'Web Developer'}</p>
                 </div>
             </div>
 

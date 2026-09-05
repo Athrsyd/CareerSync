@@ -22,8 +22,8 @@ const HeaderAnalysis = ({ loading, isAnalysisStarted, handleRefresh, onStartAnal
                     {loading
                         ? 'Menganalisis...'
                         : isAnalysisStarted
-                            ? '↻ Refresh Analysis'
-                            : '▶ Start Analysis'}
+                            ? ' Refresh Analysis'
+                            : ' Start Analysis'}
                 </button>
             </div>
         </header>

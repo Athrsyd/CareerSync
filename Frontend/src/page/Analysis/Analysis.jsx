@@ -73,14 +73,14 @@ const Analysis = () => {
     return (
         <>
             <NavDash />
-            <div className='md:ml-[84px] lg:ml-[180px] overflow-x-hidden min-w-0 pb-24 md:pb-5'>
+            <div className='md:ml-21 lg:ml-45 overflow-x-hidden min-w-0 pb-24 md:pb-5'>
                 <Navbar />
                 <div className="px-4 sm:px-6 lg:px-8 mt-4">
                     <HeaderAnalysis
                         runAnalysis={() => runAnalysis(careerData, enrichedSkills, readiness)}
                         loading={feedbackLoading}
                         isAnalysisStarted={analysisStarted}
-                        onStartAnalysis={() => {}}
+                        onStartAnalysis={() => {console.log("Analysis started"); setAnalysisStarted(true); generateAndSendFeedback();}}
                         handleRefresh={handleRefresh}
                     />
                     {analysisStarted && (

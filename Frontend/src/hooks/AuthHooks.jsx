@@ -16,7 +16,7 @@ const AuthHooks = () => {
     const [AuthLoading, setAuthLoading] = useState(false);
     const [password, setPassword] = useState('');
     const [user, setUser] = useState(null);
-    
+
 
 
     const handleRegister = async (e) => {
@@ -30,10 +30,21 @@ const AuthHooks = () => {
             });
             console.log('Registration successful:', response.data);
             setMessage(response.data.message);
+            const token = response.data.token;
+            localStorage.setItem('tokenCareerSync', token);
             setUsername('');
             setEmail('');
             setPassword('');
+            const userCareer = await GetCareer();
+            console.log('User career data:', userCareer.length);
 
+            setTimeout(() => {
+                if (userCareer.length <= 0) {
+                    navigate('/pretest');
+                } else {
+                    navigate('/dashboard');
+                }
+            }, 1500);
         } catch (error) {
             console.error('Error during registration:', error);
             setMessage(error.response?.data?.errors?.email?.[0]);
@@ -72,7 +83,7 @@ const AuthHooks = () => {
 
             const userCareer = await GetCareer();
             console.log('User career data:', userCareer.length);
-            
+
             setTimeout(() => {
                 if (userCareer.length <= 0) {
                     navigate('/pretest');

@@ -2,14 +2,19 @@ import { useState } from "react";
 import aiPrompt from "../utils/aiPrompt";
 import axios from "axios";
 import API from '../services/api'
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY
 
 const useAI = () => {
     const [result, SetResult] = useState(null);
     const [loading, SetLoading] = useState(false);
+    const API_KEY = import.meta.env.VITE_GEMINI_API_KEY?.trim();
 
     const runAnalysis = async (careerData, skillsMastery, readiness) => {
         try {
+            if (!API_KEY) {
+                console.error("VITE_GEMINI_API_KEY belum tersedia. Restart Vite dari folder Frontend setelah mengubah .env.");
+                return null;
+            }
+
             SetLoading(true);
 
             const prompt = aiPrompt(careerData, skillsMastery, readiness);
@@ -17,7 +22,7 @@ const useAI = () => {
             // console.log("API KEY:", API_KEY)
 
             const res = await axios.post(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`,
+                `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${API_KEY}`,
                 {
                     contents: [
                         {

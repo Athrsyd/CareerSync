@@ -9,23 +9,28 @@ import { useCareer } from '../../context/CareerContext';
 import { useUser } from '../../context/UserContext';
 
 const Pretest = () => {
+
     const { user } = useUser();
     const [page, setPage] = useState(1);
-    const [dataCareer, setDataCareer] = useState([]);
+    const [dataCareer] = useState(CareerOptions.careers);
     const [selectedCareer, setSelectedCareer] = useState('');
     const [skillList, setSkillList] = useState([]);
     const [selectedSkills, setSelectedSkills] = useState([]);
     const [selectedCareerName, setSelectedCareerName] = useState('');
     const [preventNext, setPreventNext] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { fetchCareer } = useCareer();
+    const { careerData, fetchCareer } = useCareer();
     const { postCareer, postReadinessScore } = CareerHooks();
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        setDataCareer(CareerOptions.careers);
-    }, [])
+        if (careerData ) {
+            navigate('/dashboard');
+        }
+    }, [careerData, navigate]);
+
+
 
     useEffect(() => {
         console.log(`Selected skills: ${selectedSkills.join(', ')}`);

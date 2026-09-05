@@ -38,6 +38,8 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
+
+        $token = $buatAkun->createToken('auth_token')->plainTextToken;
         // $buatProgress = $buatAkun->progress()->create([
         //     'readiness_point' => 0,
         //     'progress_date' => now(),
@@ -45,7 +47,8 @@ class UserController extends Controller
 
         return response()->json([
             'message' => 'Selamat, registrasi berhasil! silahkan sign in',
-            "data" => $buatAkun
+            "data" => $buatAkun,
+            "token" => $token
         ]);
     }
 

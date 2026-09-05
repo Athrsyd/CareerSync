@@ -71,7 +71,7 @@ class PortfolioController extends Controller
                 'portfolio_id'       => $request->fullname,
                 'user_id'            => Auth::id(),
                 'career_id'          => $userCareer ? $userCareer->id : null,
-                'project_finished_id'=> $projectFinished ? $projectFinished->id : null,
+                'project_finished_id' => $projectFinished ? $projectFinished->id : null,
                 'fullname'           => $request->fullname,
                 'education'          => $request->education,
                 'hobbies'            => $request->hobbies,
@@ -91,7 +91,6 @@ class PortfolioController extends Controller
                 'message' => 'Portfolio berhasil dibuat!',
                 'data'    => $portfolio,
             ], 201);
-
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Gagal membuat portfolio: ' . $e->getMessage(),
@@ -136,8 +135,8 @@ class PortfolioController extends Controller
             'instagram_link' => $getPortfolio->instagram_link,
             'github_link'    => $getPortfolio->github_link,
             'photo'          => $getPortfolio->photo
-                                    ? asset('storage/' . $getPortfolio->photo)
-                                    : null,
+                ? asset('storage/' . $getPortfolio->photo)
+                : null,
             'address'        => $getPortfolio->address,
             'style'          => $getPortfolio->style ?? 'style1',
             'career_name'    => $career ? $career->career_name : null,
@@ -180,7 +179,7 @@ class PortfolioController extends Controller
             'github_link'        => 'nullable|url',
             'photo'              => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'career_id'          => 'nullable|integer|exists:user_careers,id',
-            'project_finished_id'=> 'nullable|integer|exists:projects_finished,id',
+            'project_finished_id' => 'nullable|integer|exists:projects_finished,id',
             'style'              => $this->styleRule(),
         ], [
             'fullname.required'     => 'Fullname wajib diisi!',
@@ -239,10 +238,9 @@ class PortfolioController extends Controller
 
             return response()->json([
                 'message' => 'Portfolio berhasil diupdate!',
-                'style'=> $request->style,
+                'style' => $request->style,
                 'data'    => $portfolio,
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Gagal update portfolio: ' . $e->getMessage(),
@@ -266,11 +264,62 @@ class PortfolioController extends Controller
             $portfolio->delete();
 
             return response()->json(['message' => 'Portfolio berhasil dihapus!'], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Gagal menghapus portfolio: ' . $e->getMessage(),
             ], 500);
         }
+    }
+
+    public function searchPortfolio(Request $request)
+    {
+        $searchTerm = trim($request->input('query'));
+        $searchCareer = $request->input('career', null);
+        $searchLevel = $request->input('level', null);
+
+        if (!$searchTerm) {
+            return response()->json(['message' => 'Query pencarian tidak boleh kosong!'], 400);
+        }
+
+        $portfolios = Portfolio::where('fullname', 'like', '%' . $searchTerm . '%')
+            ->orWhere('about_me', 'like', '%' . $searchTerm . '%')
+            ->orWhere('education', 'like', '%' . $searchTerm . '%')
+            ->orWhere('hobbies', 'like', '%' . $searchTerm . '%')
+            ->orWhere('experience', 'like', '%' . $searchTerm . '%')
+            ->when($searchCareer, function ($query, $career) {
+                return $query->where('career_id', $career);
+            })
+            ->when($searchLevel, function ($query, $level) {
+                return $query->where('level_id', $level);
+            })
+            ->orderByDesc('updated_at')
+            ->get();
+
+        $data = [
+            'portfolios' => $portfolios->map(function ($portfolio) {
+                return [
+                    'username' => $portfolio->user->username,
+                    'fullname' => $portfolio->fullname,
+                    'about_me' => $portfolio->about_me,
+                    'education' => $portfolio->education,
+                    'hobbies' => $portfolio->hobbies,
+                    'experience' => $portfolio->experience,
+                    'email' => $portfolio->email,
+                    'phone_number' => $portfolio->phone_number,
+                    'linkedin_link' => $portfolio->linkedin_link,
+                    'instagram_link' => $portfolio->instagram_link,
+                    'github_link' => $portfolio->github_link,
+                    'address' => $portfolio->address,
+                    'photo' => $portfolio->photo ? asset('storage/' . $portfolio->photo) : null,
+                    'style' => $portfolio->style ?? 'style1',
+                ];
+            })
+
+        ];
+
+        return response()->json([
+            'message' => 'Hasil pencarian portfolio',
+            'data'    => $data,
+        ], 200);
     }
 }

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Logo from '../../assets/Logo_CareerSync.svg'
 import AuthHooks from '../../hooks/AuthHooks';
@@ -62,10 +61,10 @@ const LogoutIcon = () => (
   </svg>
 );
 
-const SidebarIcon = ({ item, onClick, menuActive }) => {
+const SidebarIcon = ({ item, menuActive }) => {
   return (
     <div className={`flex flex-row transition-all ease-in duration-200 items-center justify-start w-full
-      h-10 cursor-pointer hover:scale-105 rounded-l-full ${menuActive === item.id ? 'bg-white' : ''}`} onClick={onClick}>
+      h-10 cursor-pointer hover:scale-105 rounded-l-full ${menuActive === item.id ? 'bg-white' : ''}`}>
       <div className="flex flex-col justify-center items-center h-12 w-12 pl-2 lg:pl-0">
         {item.icon}
       </div>
@@ -80,16 +79,8 @@ const SidebarIcon = ({ item, onClick, menuActive }) => {
 
 const NavDash = () => {
   const location = useLocation();
-  const [menuActive, setMenuActive] = useState('home');
+  const menuActive = NavIcon.find(item => item.path === location.pathname)?.id;
   const { Logout } = AuthHooks();
-
-  useEffect(() => {
-    const currentPath = location.pathname;
-    const activeItem = NavIcon.find(item => item.path === currentPath);
-    if (activeItem) {
-      setMenuActive(activeItem.id);
-    }
-  }, [location.pathname]);
 
   return (
     <>
@@ -111,7 +102,6 @@ const NavDash = () => {
               <Link to={item.path} key={item.id} className="w-full md:pl-4 lg:pl-4">
                 <SidebarIcon
                   item={item}
-                  onClick={() => setMenuActive(item.id)}
                   menuActive={menuActive}
                 />
               </Link>
@@ -138,8 +128,7 @@ const NavDash = () => {
             <Link
               to={item.path}
               key={item.id}
-              onClick={() => setMenuActive(item.id)}
-              className={`flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-200 ${menuActive === item.id ? 'bg-white scale-105' : ''}`}
+              className={`flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-200 ${menuActive === item.id ? 'bg-white scale-105 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.3)] -translate-y-4 ' : ''}`}
             >
               <div className="flex items-center justify-center w-8 h-8">
                 {item.icon}
