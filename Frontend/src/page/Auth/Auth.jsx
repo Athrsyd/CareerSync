@@ -46,32 +46,42 @@ const Auth = () => {
                 <img src={background} alt="background" className='w-full h-full object-cover' />
             </div>
 
-            {/* Auth Container */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 bg-[#021124]/30 w-11/12 sm:w-10/12 md:w-7/8 lg:w-7/8 max-w-4xl h-auto min-h-[70vh] md:h-4/5 rounded-xl backdrop-blur-xl flex items-center gap-6 overflow-hidden">
+            {/* Auth Container — relative agar dua panel bisa absolute di dalamnya */}
+            <div className="
+                absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40
+                bg-[#021124]/30
+                w-11/12 sm:w-10/12 md:w-7/8 lg:w-7/8 max-w-4xl
+                h-auto min-h-[70vh] md:h-4/5
+                rounded-xl backdrop-blur-xl overflow-hidden
+                flex md:block
+            ">
 
-                {/* Left Panel - hidden on mobile */}
-                <div className={`hidden md:flex flex-col justify-center w-1/2 h-full text-white transition-all duration-700 ease-in-out transform ${isSignIn ? 'translate-x-full opacity-100' : 'translate-x-0 opacity-100'}`}>
-                    <div className={`relative ${isSignIn ? 'text-end items-end px-10' : 'items-start text-justify pl-10 p-10'}`}>
-                        <h1 className='text-2xl lg:text-4xl font-bold mb-2'>
-                            {isSignIn ? 'Terus tingkatkan skill mu' : 'Ayo bangun skill masa depan'}
-                        </h1>
-                        <p className={`${isSignIn ? 'text-base lg:text-xl' : 'text-sm lg:text-lg'}`}>
-                            {isSignIn
-                                ? 'Lanjutkan perjalanan belajar mu dan raih impian karirmu dengan terus meningkatkan skill yang kamu miliki.'
-                                : 'Capai impian karirmu dengan membangun skill yang relevan untuk masa depan. Mulai perjalanan belajarmu sekarang dan raih kesuksesan di dunia kerja.'}
-                        </p>
-                    </div>
-                </div>
-
-                {/* Right Panel - Form */}
-                <div className={`w-full md:w-1/2 h-full bg-[#021124]/90 rounded-xl text-white transition-all duration-700 ease-in-out transform
-                    ${isSignIn ? 'md:-translate-x-full' : 'md:translate-x-0'}`}>
+                {/* ── FORM PANEL ───────────────────────────────────────────────────
+                    Mobile  : full width, static (tidak ada animasi slide).
+                    Desktop : absolute, lebar 50%, slide kiri↔kanan via left/right.
+                    left: 0%  → berada di kiri  (Sign Up)
+                    left: 50% → berada di kanan (Sign In)
+                ──────────────────────────────────────────────────────────────── */}
+                <div
+                    style={{
+                        transition: 'left 0.65s cubic-bezier(0.77,0,0.18,1)',
+                    }}
+                    className={`
+                        w-full md:absolute md:top-0 md:h-full md:w-1/2
+                        bg-[#021124]/90 rounded-xl text-white z-10
+                        ${isSignIn ? 'md:left-0' : 'md:left-1/2'}
+                    `}
+                >
                     <div className="flex flex-row items-center justify-center h-full w-full">
                         <div className="w-3/4 h-full flex flex-col items-start justify-center gap-4 py-8">
-                            <h1 className={`font-bold text-2xl lg:text-3xl text-start px-5 transition-all duration-300 ease-in-out ${isSignIn ? '-translate-x-1' : 'translate-x-0'}`}>
+                            <h1 className="font-bold text-2xl lg:text-3xl text-start px-5 transition-opacity duration-300">
                                 {isSignIn ? 'Selamat Datang Kembali!' : 'Buat Akun Anda'}
                             </h1>
-                            <form action="" method="post" className='flex flex-col justify-center items-start w-9/10 pl-5 py-3 gap-6 lg:gap-10' onSubmit={isSignIn ? handleLoginSubmit : handleRegister}>
+
+                            <form
+                                className='flex flex-col justify-center items-start w-9/10 pl-5 py-3 gap-6 lg:gap-10'
+                                onSubmit={isSignIn ? handleLoginSubmit : handleRegister}
+                            >
                                 {!isSignIn && (
                                     <>
                                         <input autoComplete='off' type="text" name='username' placeholder='Nama Anda' onChange={handleChange}
@@ -100,14 +110,22 @@ const Auth = () => {
                                         </div>
                                     </>
                                 )}
+
                                 <div className="w-full flex flex-col items-center justify-center gap-2">
                                     {message && <p className='text-white text-sm'>{message}</p>}
-                                    <button disabled={AuthLoading} onClick={() => setShowPassword(false)} className={`w-full py-2 rounded-lg bg-primary text-white font-semibold hover:bg-[#4a6fa3] transition-colors duration-300 ${AuthLoading ? 'cursor-not-allowed opacity-70' : ''}`}>
+                                    <button
+                                        disabled={AuthLoading}
+                                        onClick={() => setShowPassword(false)}
+                                        className={`w-full py-2 rounded-lg bg-primary text-white font-semibold hover:bg-[#4a6fa3] transition-colors duration-300 ${AuthLoading ? 'cursor-not-allowed opacity-70' : ''}`}
+                                    >
                                         {AuthLoading ? (isSignIn ? 'Signing In...' : 'Signing Up...') : (isSignIn ? 'Sign In' : 'Sign Up')}
                                     </button>
                                     <p className='text-center font-light text-white/50 text-sm'>
                                         {isSignIn ? 'Belum punya akun?' : 'Sudah punya akun?'}
-                                        <span onClick={() => { toggleButton(); setMessage('') }} className='text-primary font-semibold cursor-pointer hover:text-white transition-colors duration-300'>
+                                        <span
+                                            onClick={() => { toggleButton(); setMessage('') }}
+                                            className='text-primary font-semibold cursor-pointer hover:text-white transition-colors duration-300'
+                                        >
                                             {' '}{isSignIn ? 'Sign Up' : 'Sign In'}
                                         </span>
                                     </p>
@@ -115,11 +133,11 @@ const Auth = () => {
                             </form>
                         </div>
 
-                        {/* Divider - hidden on very small screens */}
+                        {/* Divider */}
                         <div className="hidden sm:flex w-px h-full opacity-50 flex-col items-center justify-center gap-3 mx-2">
-                            <div className="bg-white w-0.5 h-28"></div>
+                            <div className="bg-white w-0.5 h-28" />
                             <p className='text-white text-xs'>ATAU</p>
-                            <div className="bg-white w-0.5 h-28"></div>
+                            <div className="bg-white w-0.5 h-28" />
                         </div>
 
                         {/* Social Buttons */}
@@ -130,6 +148,35 @@ const Auth = () => {
                         </div>
                     </div>
                 </div>
+
+                {/* ── INFO PANEL (desktop only) ─────────────────────────────────────
+                    Absolute, lebar 50%, slide ke arah berlawanan dari form.
+                    right: 0%  → berada di kanan (Sign Up)
+                    right: 50% → berada di kiri  (Sign In)
+                ──────────────────────────────────────────────────────────────── */}
+                <div
+                    style={{
+                        transition: 'right 0.65s cubic-bezier(0.77,0,0.18,1)',
+                    }}
+                    className={`
+                        hidden md:flex flex-col justify-center
+                        absolute top-0 h-full w-1/2
+                        text-white
+                        ${isSignIn
+                            ? 'right-0 items-end text-right pr-10 pl-4'
+                            : 'right-1/2 items-start text-left pl-10 pr-4'}
+                    `}
+                >
+                    <h1 className='text-2xl lg:text-4xl font-bold mb-3 leading-tight'>
+                        {isSignIn ? 'Terus tingkatkan skill mu' : 'Ayo bangun skill masa depan'}
+                    </h1>
+                    <p className='text-base lg:text-lg text-white/80 leading-relaxed max-w-xs'>
+                        {isSignIn
+                            ? 'Lanjutkan perjalanan belajar mu dan raih impian karirmu dengan terus meningkatkan skill yang kamu miliki.'
+                            : 'Capai impian karirmu dengan membangun skill yang relevan untuk masa depan. Mulai perjalanan belajarmu sekarang dan raih kesuksesan di dunia kerja.'}
+                    </p>
+                </div>
+
             </div>
         </div>
     )
