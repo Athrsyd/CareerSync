@@ -69,11 +69,11 @@ $$
 - Recharts / Chart.js
 
 **Backend**
-- Node.js / Express
+- Laravel v.13
 - REST API
 
 **AI Integration**
-- Anthropic Claude API (AI Insights & Feedback)
+- Gemini 3.5 Flash-lite API (AI Insights & Feedback)
 
 ---
 
