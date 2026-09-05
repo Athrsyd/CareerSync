@@ -697,13 +697,13 @@ const PortfolioSearch = () => {
                             </select>
                             <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.50)" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
                         </div>
-                        <div className="relative">
+                        {/* <div className="relative">
                             <select value={level} onChange={e => setLevel(e.target.value)} style={selectStyle}>
                                 <option value="" style={{ background: '#1a3255' }}>Semua Level</option>
                                 {LEVELS.map(l => <option key={l.id} value={l.id} style={{ background: '#1a3255' }}>{l.label}</option>)}
                             </select>
                             <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,0.50)" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
-                        </div>
+                        </div> */}
                         <motion.button
                             onClick={doSearch} disabled={loading}
                             className="text-white px-7 py-3 rounded-xl font-bold text-sm cursor-pointer whitespace-nowrap w-full sm:w-auto"
