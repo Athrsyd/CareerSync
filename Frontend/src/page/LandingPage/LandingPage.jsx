@@ -148,7 +148,7 @@ const BlurReveal = ({ children, delay = 0, className = '', style = {} }) => {
             variants={fadeBlur}
             initial="hidden"
             animate={inView ? 'show' : 'hidden'}
-            transition={{ duration: 1.25, ease: [0.22, 1, 0.36, 1], delay }}
+            transition={{ duration: 2, ease: [0.22, 1, 0.36, 1], delay }}
         >
             {children}
         </motion.div>
