@@ -1,7 +1,11 @@
 import React from 'react'
 import { Loader2 } from 'lucide-react'
 
-const HeaderAnalysis = ({ loading, isAnalysisStarted, handleRefresh, onStartAnalysis }) => {
+const HeaderAnalysis = ({ loading, isAnalysisStarted, canAnalyzeToday, handleRefresh, onStartAnalysis }) => {
+    // Tombol refresh hanya aktif kalau sudah pernah analisis DAN cooldown sudah habis
+    const showRefresh = isAnalysisStarted;
+    const isDisabled  = loading || (showRefresh && !canAnalyzeToday);
+
     return (
         <header className="py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex flex-col gap-1">
@@ -14,16 +18,18 @@ const HeaderAnalysis = ({ loading, isAnalysisStarted, handleRefresh, onStartAnal
             </div>
             <div className="shrink-0">
                 <button
-                    onClick={isAnalysisStarted ? handleRefresh : onStartAnalysis}
-                    disabled={loading}
+                    onClick={showRefresh ? handleRefresh : onStartAnalysis}
+                    disabled={isDisabled}
                     className="flex items-center gap-2 bg-blue-100 hover:bg-blue-200 text-primary font-bold py-2.5 px-6 rounded-full transition-all ease-in-out duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm w-full sm:w-auto justify-center"
                 >
                     {loading && <Loader2 size={15} className="animate-spin" />}
                     {loading
                         ? 'Menganalisis...'
-                        : isAnalysisStarted
-                            ? ' Refresh Analysis'
-                            : ' Start Analysis'}
+                        : showRefresh
+                            ? canAnalyzeToday
+                                ? 'Refresh Analysis'
+                                : 'Sudah Dianalisis Hari Ini'
+                            : 'Start Analysis'}
                 </button>
             </div>
         </header>

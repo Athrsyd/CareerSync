@@ -1,6 +1,5 @@
-import React, { use } from 'react'
-import { useEffect, useState, useMemo } from 'react';
-import CareerOptions from '../../data/careerOptions.json'
+import React, { useEffect, useState, useMemo } from 'react';
+import CareerOptions from '../../data/careerOptions.json';
 import Navbar from '../../components/Global/Navbar';
 import NavDash from '../../components/Dashboard/NavDash';
 import JobReadinessScore from '../../components/Global/JobReadinessScore';
@@ -12,63 +11,81 @@ import ProgressGrafic from '../../components/Analysis/ProgressGrafic';
 import { useProgress } from '../../context/ProgressContext';
 import useAI from '../../hooks/AiAnalysisHooks';
 import { useCareer } from '../../context/CareerContext';
-import { useUser } from '../../context/UserContext';
-import API from '../../services/api';
 
 const Analysis = () => {
     const { readiness, careerData, skillsMastery } = useCareer();
     const { progress } = useProgress();
-    const { runAnalysis, loading: aiLoading, getFeedback } = useAI();
+    const { loading: aiLoading, rateLimitInfo, runAnalysis, refreshAnalysis, getFeedback } = useAI();
+
     const [analysisStarted, setAnalysisStarted] = useState(false);
     const [feedback, setFeedback] = useState(null);
     const [feedbackLoading, setFeedbackLoading] = useState(false);
+    const [canAnalyzeToday, setCanAnalyzeToday] = useState(true);
+    const [nextAnalysisInfo, setNextAnalysisInfo] = useState(null);
 
+    // Enriched skills: gabungkan skillsMastery dengan nama skill dari careerOptions
     const enrichedSkills = useMemo(() => {
         if (!careerData || skillsMastery.length === 0) return [];
         const career = CareerOptions.careers.find((c) => c.name === careerData.career_name);
         return skillsMastery.map((sm) => {
             const foundSkill = career?.skills.find((s) => String(s.id) === String(sm.skill_id));
-            return { ...sm, name: foundSkill?.name || "Unknown Skill" };
+            return { ...sm, name: foundSkill?.name || 'Unknown Skill' };
         });
     }, [careerData, skillsMastery]);
 
+    // Saat pertama load: cek status analisis & ambil feedback yang sudah ada
     useEffect(() => {
-        if (analysisStarted && careerData && enrichedSkills.length > 0) {
-            getFeedback(careerData.id).then((data) => {
-                if (data) setFeedback(data.ai_feedback);
-                else setFeedback("Gagal mengambil feedback. Silakan coba lagi.");
-            });
-            if (!feedback) generateAndSendFeedback();
-        }
-    }, [analysisStarted, careerData, enrichedSkills]);
+        if (!careerData?.id) return;
 
+        getFeedback(careerData.id).then((data) => {
+            if (!data) return;
+            setAnalysisStarted(data.ever_analyzed);
+            setCanAnalyzeToday(data.can_analyze_today);
+            setNextAnalysisInfo(data.next_analysis_in > 0 ? data.next_analysis_in : null);
+            if (data.ai_feedback) setFeedback(data.ai_feedback);
+        });
+    }, [careerData?.id]);
+
+    // Update info cooldown dari hook jika ada rate limit response
     useEffect(() => {
-        if (careerData?.id) {
-            getFeedback(careerData.id)
-                .then((data) => {
-                    if (data) setAnalysisStarted(data.ever_analyzed);
-                })
-                .catch((error) => console.error("Error fetching feedback:", error));
+        if (rateLimitInfo) {
+            setCanAnalyzeToday(false);
+            setNextAnalysisInfo(rateLimitInfo.seconds);
         }
-    }, [careerData?.id, getFeedback]);
+    }, [rateLimitInfo]);
 
-    const generateAndSendFeedback = async () => {
-        try {
-            setFeedbackLoading(true);
-            const token = localStorage.getItem('tokenCareerSync');
-            const generatedFeedback = await runAnalysis(careerData, enrichedSkills, readiness);
-            await API.post(`/feedback/${careerData.id}`, { ai_feedback: generatedFeedback }, {
-                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
-            });
+    // Analisis pertama kali
+    const handleStartAnalysis = async () => {
+        setFeedbackLoading(true);
+        const generatedFeedback = await runAnalysis(careerData, enrichedSkills, readiness);
+        if (generatedFeedback) {
             setFeedback(generatedFeedback);
-        } catch (error) {
-            setFeedback("Gagal membuat analisis. Silakan coba lagi.");
-        } finally {
-            setFeedbackLoading(false);
+            setAnalysisStarted(true);
+            setCanAnalyzeToday(false);
         }
+        setFeedbackLoading(false);
     };
 
-    const handleRefresh = async () => { await generateAndSendFeedback(); }
+    // Refresh analisis (tetap kena rate limit 24 jam)
+    const handleRefresh = async () => {
+        setFeedbackLoading(true);
+        const generatedFeedback = await refreshAnalysis(careerData, enrichedSkills, readiness);
+        if (generatedFeedback) {
+            setFeedback(generatedFeedback);
+            setCanAnalyzeToday(false);
+        }
+        setFeedbackLoading(false);
+    };
+
+    // Format sisa waktu dari detik ke "X jam Y menit"
+    const formatCooldown = (seconds) => {
+        if (!seconds) return '';
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        return `${h} jam ${m} menit`;
+    };
+
+    const isLoading = aiLoading || feedbackLoading;
 
     return (
         <>
@@ -77,19 +94,29 @@ const Analysis = () => {
                 <Navbar />
                 <div className="px-4 sm:px-6 lg:px-8 mt-4">
                     <HeaderAnalysis
-                        runAnalysis={() => runAnalysis(careerData, enrichedSkills, readiness)}
-                        loading={feedbackLoading}
+                        loading={isLoading}
                         isAnalysisStarted={analysisStarted}
-                        onStartAnalysis={() => {console.log("Analysis started"); setAnalysisStarted(true); generateAndSendFeedback();}}
+                        canAnalyzeToday={canAnalyzeToday}
+                        onStartAnalysis={handleStartAnalysis}
                         handleRefresh={handleRefresh}
                     />
+
+                    {/* Pesan rate limit */}
+                    {!canAnalyzeToday && nextAnalysisInfo && (
+                        <div className="mt-3 px-4 py-3 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-700">
+                            Analisis berikutnya tersedia dalam{' '}
+                            <span className="font-semibold">{formatCooldown(nextAnalysisInfo)}</span>.
+                            Kamu hanya bisa melakukan 1 analisis per 24 jam.
+                        </div>
+                    )}
+
                     {analysisStarted && (
                         <>
                             {/* Feedback + Score */}
                             <div className="flex flex-col lg:flex-row w-full gap-6 mt-4">
-                                <FeedbackAI result={feedback} loading={feedbackLoading} />
+                                <FeedbackAI result={feedback} loading={isLoading} />
                                 <div className="w-full lg:w-auto">
-                                    <JobReadinessScore score={readiness} role={careerData?.career_name || "Web Developer"} />
+                                    <JobReadinessScore score={readiness} role={careerData?.career_name || 'Web Developer'} />
                                 </div>
                             </div>
 
@@ -107,7 +134,7 @@ const Analysis = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Analysis
+export default Analysis;
