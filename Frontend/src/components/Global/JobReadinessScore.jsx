@@ -14,7 +14,7 @@ const JobReadinessScore = ({ score = 78, role = "Web Developer" }) => {
     }, [score]);
     const topPercent = Math.max(1, 100 - score);
 
-    if (!score || !role) {
+    if (score === false || score == null || !role) {
         return <Skeleton width={280} height={200} style={{ borderRadius: '1rem' }} />;
     }
 

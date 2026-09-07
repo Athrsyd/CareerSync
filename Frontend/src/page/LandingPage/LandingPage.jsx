@@ -71,14 +71,15 @@ const LEVELS = [
 ]
 
 const TESTIMONIALS = [
-    { text: 'Saya tidak menyangka bisa tahu dengan jelas skill apa yang kurang. Setelah menyelesaikan 2 proyek rekomendasi, langsung dipanggil interview di startup.', name: 'Rizal Aditya', role: 'Fullstack Developer · SMKN 3 Jakarta', initials: 'RA', bg: '#E8EEF8', color: '#1E3A6E' },
-    { text: 'Fitur AI Insight-nya luar biasa. Analisisnya spesifik—bukan jawaban generik. Saya tahu persis framework mana yang harus dipelajari minggu ini.', name: 'Nurul Fadhilah', role: 'UI/UX Designer · Politeknik Negeri Jakarta', initials: 'NF', bg: '#E0EBF7', color: '#1A4580' },
-    { text: 'Portfolio builder-nya simpel tapi hasilnya profesional. Teman saya di HR bilang tampilan portofolio saya lebih meyakinkan dari kandidat 2 tahun lebih senior.', name: 'Bayu Pratama', role: 'IoT Engineer · SMKN 26 Jakarta', initials: 'BP', bg: '#DFF0FA', color: '#12567A' },
-    { text: 'Skor kesiapan kerja saya naik dari 42% ke 78% dalam sebulan. Sistemnya terasa nyata—bukan cuma angka, ada bukti proyeknya.', name: 'Siti Rahayu', role: 'Network Engineer · SMK Telkom Bandung', initials: 'SR', bg: '#E5EBF5', color: '#243F72' },
-    { text: 'Awalnya skeptis, tapi setelah coba rekomendasinya relevan banget. Proyek yang diberikan sesuai level saya—tidak terlalu mudah dan tidak mustahil.', name: 'Dimas Fauzan', role: 'Game Developer · SMKN 4 Surabaya', initials: 'DF', bg: '#E9EDF7', color: '#2B3F6A' },
-    { text: 'Link portofolio saya taruh di LinkedIn. Beberapa rekruter langsung DM karena tertarik lihat proyek-proyek yang saya kerjakan lewat CareerSync.', name: 'Ayu Lestari', role: 'Akuntan · SMK PGRI 1 Jakarta', initials: 'AL', bg: '#E3EFF8', color: '#174D7A' },
-    { text: 'Weighted scoring-nya masuk akal. Saya akhirnya paham kenapa skor masih 60%—bukan karena skill kurang, tapi bukti proyeknya belum lengkap.', name: 'Hendra Kurniawan', role: 'Drafter · Polman Bandung', initials: 'HK', bg: '#EAF0F7', color: '#1E3D5C' },
-    { text: 'Tampilannya bersih dan tidak bikin bingung. Dalam 15 menit pertama saya sudah paham cara kerjanya dan langsung bisa isi profil.', name: 'Melati Putri', role: 'Painter Kendaraan · SMK Karya Bangsa', initials: 'MP', bg: '#E2ECF6', color: '#1D4B73' },
+    // hanya dummy data
+    {image:'https://i.pravatar.cc/150?img=1', text: 'Saya tidak menyangka bisa tahu dengan jelas skill apa yang kurang. Setelah menyelesaikan 2 proyek rekomendasi, langsung dipanggil interview di startup.', name: 'Rizal Aditya', role: 'Fullstack Developer · SMKN 3 Jakarta', initials: 'RA', bg: '#E8EEF8', color: '#1E3A6E' },
+    {image:'https://i.pravatar.cc/150?img=2', text: 'Fitur AI Insight-nya luar biasa. Analisisnya spesifik—bukan jawaban generik. Saya tahu persis framework mana yang harus dipelajari minggu ini.', name: 'Nurul Fadhilah', role: 'UI/UX Designer · Politeknik Negeri Jakarta', initials: 'NF', bg: '#E0EBF7', color: '#1A4580' },
+    {image:'https://i.pravatar.cc/150?img=3', text: 'Portfolio builder-nya simpel tapi hasilnya profesional. Teman saya di HR bilang tampilan portofolio saya lebih meyakinkan dari kandidat 2 tahun lebih senior.', name: 'Bayu Pratama', role: 'IoT Engineer · SMKN 26 Jakarta', initials: 'BP', bg: '#DFF0FA', color: '#12567A' },
+    {image:'https://i.pravatar.cc/150?img=4', text: 'Skor kesiapan kerja saya naik dari 42% ke 78% dalam sebulan. Sistemnya terasa nyata—bukan cuma angka, ada bukti proyeknya.', name: 'Siti Rahayu', role: 'Network Engineer · SMK Telkom Bandung', initials: 'SR', bg: '#E5EBF5', color: '#243F72' },
+    {image:'https://i.pravatar.cc/150?img=56', text: 'Awalnya skeptis, tapi setelah coba rekomendasinya relevan banget. Proyek yang diberikan sesuai level saya—tidak terlalu mudah dan tidak mustahil.', name: 'Dimas Fauzan', role: 'Game Developer · SMKN 4 Surabaya', initials: 'DF', bg: '#E9EDF7', color: '#2B3F6A' },
+    {image:'https://i.pravatar.cc/150?img=37', text: 'Link portofolio saya taruh di LinkedIn. Beberapa rekruter langsung DM karena tertarik lihat proyek-proyek yang saya kerjakan lewat CareerSync.', name: 'Ayu Lestari', role: 'Akuntan · SMK PGRI 1 Jakarta', initials: 'AL', bg: '#E3EFF8', color: '#174D7A' },
+    {image:'https://i.pravatar.cc/150?img=38', text: 'Weighted scoring-nya masuk akal. Saya akhirnya paham kenapa skor masih 60%—bukan karena skill kurang, tapi bukti proyeknya belum lengkap.', name: 'Hendra Kurniawan', role: 'Drafter · Polman Bandung', initials: 'HK', bg: '#EAF0F7', color: '#1E3D5C' },
+    {image:'https://i.pravatar.cc/150?img=39', text: 'Tampilannya bersih dan tidak bikin bingung. Dalam 15 menit pertama saya sudah paham cara kerjanya dan langsung bisa isi profil.', name: 'Melati Putri', role: 'Painter Kendaraan · SMK Karya Bangsa', initials: 'MP', bg: '#E2ECF6', color: '#1D4B73' },
 ]
 
 const FAQS = [
@@ -330,7 +331,7 @@ const Hero = ({ onCtaClick }) => {
             />
             {/* Glow orb — subtle pulse */}
             <motion.div
-                className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none"
+                className="absolute -top-32 -right-32 w-125 h-125 rounded-full pointer-events-none"
                 style={{ background: 'radial-gradient(circle, rgba(59,108,183,0.22) 0%, transparent 70%)' }}
                 animate={{ scale: [1, 1.08, 1], opacity: [0.7, 1, 0.7] }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
@@ -344,7 +345,7 @@ const Hero = ({ onCtaClick }) => {
                         style={{ color: '#7AAEE8', letterSpacing: '0.14em' }}
                         initial={{ opacity: 0, y: 16, filter: 'blur(8px)' }}
                         animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                        transition={{ duration: 0.7, delay: 0.2 }}
+                        transition={{ duration: 1.2, delay: 0.2 }}
                     >
                         Platform Kesiapan Kerja SMK/SMA
                     </motion.p>
@@ -355,7 +356,7 @@ const Hero = ({ onCtaClick }) => {
                         style={{ fontSize: 'clamp(2.4rem, 5vw, 3.6rem)', fontWeight: 400, fontStyle: 'italic' }}
                         initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
                         animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                        transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ duration: 1.3, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
                     >
                         Ukur Kesiapan Kerjamu.
                         <br />
@@ -384,7 +385,7 @@ const Hero = ({ onCtaClick }) => {
                         className="text-white/55 text-base md:text-lg max-w-lg mx-auto lg:mx-0 mb-9 leading-relaxed"
                         initial={{ opacity: 0, y: 16, filter: 'blur(8px)' }}
                         animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                        transition={{ duration: 0.7, delay: 0.5 }}
+                        transition={{ duration: 1.2, delay: 1.0 }}
                     >
                         CareerSync menganalisis kesenjangan skill-mu secara objektif, merekomendasikan proyek industri, dan membantu membangun portofolio yang berbicara sendiri.
                     </motion.p>
@@ -394,7 +395,7 @@ const Hero = ({ onCtaClick }) => {
                         className="flex flex-wrap gap-3 justify-center lg:justify-start"
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.65 }}
+                        transition={{ duration: 1.1, delay: 1.0 }}
                     >
                         <motion.button
                             onClick={onCtaClick}
@@ -422,14 +423,14 @@ const Hero = ({ onCtaClick }) => {
                         style={{ borderTop: '1px solid rgba(255,255,255,0.10)' }}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 0.85, duration: 0.6 }}
+                        transition={{ delay: 1.35, duration: 1.2 }}
                     >
                         {[['10+', 'Bidang Karir'], ['3 Level', 'Tingkat Skill'], ['AI', 'Analisis Cerdas']].map(([v, l], i) => (
                             <motion.div
                                 key={l}
                                 initial={{ opacity: 0, y: 12 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.9 + i * 0.1, duration: 0.4 }}
+                                transition={{ delay: 0.5 + i * 0.1, duration: 0.4 }}
                             >
                                 <div className="text-2xl font-extrabold text-white leading-none">{v}</div>
                                 <div className="text-xs text-white/40 mt-1 font-medium">{l}</div>
@@ -509,7 +510,7 @@ const About = () => (
                 <AboutPoint
                     delay={0.26}
                     icon={<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="#7AAEE8"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>}
-                    title="Analisis AI Real-Time"
+                    title="Smart AI Analysis"
                     desc="Evaluasi keterampilan berbasis AI yang memahami kebutuhan industri dan memberikan saran pengembangan yang actionable."
                 />
                 <div style={{ height: 1, background: 'rgba(255,255,255,0.08)' }} />
@@ -562,7 +563,7 @@ const Features = () => (
                             transition={{ type: 'spring', stiffness: 300, damping: 24 }}
                         >
                             <div
-                                className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl"
+                                className="absolute top-0 left-0 right-0 h-0.75 rounded-t-2xl"
                                 style={{ background: `linear-gradient(90deg, ${PRIMARY}, #7AAEE8)` }}
                             />
                             <motion.div
@@ -848,7 +849,7 @@ const TestimonialCard = ({ t }) => (
                 whileHover={{ scale: 1.15 }}
                 transition={{ type: 'spring', stiffness: 400 }}
             >
-                {t.initials}
+                <img className='rounded-full' src={t.image} alt={t.name} />
             </motion.div>
             <div>
                 <p className="text-xs font-bold" style={{ color: DARK, margin: 0 }}>{t.name}</p>
@@ -867,7 +868,7 @@ const Testimonials = () => {
             <div className="max-w-6xl mx-auto px-5 md:px-10 pb-12">
                 <BlurReveal>
                     <p className="text-xs font-bold tracking-widest mb-4 block" style={{ color: PRIMARY, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-                        Dari pengguna nyata
+                        testimonial
                     </p>
                 </BlurReveal>
                 <BlurReveal delay={0.1}>

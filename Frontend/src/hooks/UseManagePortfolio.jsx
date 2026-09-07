@@ -24,59 +24,69 @@ const useManagePortfolio = () => {
         style: 'style1'
     }
 
+    /**
+     * Build FormData dari object formData.
+     * Field string selalu dikirim (termasuk yang kosong) supaya BE tidak
+     * raise 422 "field required" untuk field yang nullable.
+     */
+    const buildFormData = (formData, includeMethod = null) => {
+        const data = new FormData()
+
+        // Field yang wajib selalu terkirim meskipun kosong
+        const stringFields = [
+            'fullname', 'about_me', 'address', 'education',
+            'hobbies', 'experience', 'email', 'phone_number',
+            'linkedin_link', 'instagram_link', 'github_link',
+            'career_id', 'user_id', 'style'
+        ]
+
+        stringFields.forEach(key => {
+            // Kirim string kosong kalau null/undefined, supaya BE tahu field ini ada
+            const val = formData[key] ?? ''
+            if (val !== null) {
+                data.append(key, String(val))
+            }
+        })
+
+        if (formData.photo && formData.photo instanceof File) {
+            data.append('photo', formData.photo)
+        }
+
+        if (includeMethod) {
+            data.append('_method', includeMethod)
+        }
+
+        return data
+    }
+
     const submitPortfolio = async (formData) => {
         setLoading(true)
         setError('')
 
         try {
             const token = localStorage.getItem('tokenCareerSync')
-            const data = new FormData()
-
-            // Debug: log form data sebelum kirim
-            console.log('Submitting form data:', {
-                fullname: formData.fullname,
-                email: formData.email,
-                user_id: formData.user_id,
-                career_id: formData.career_id,
-                photo: formData.photo?.name || 'no photo'
-            })
-
-            const stringFields = ['fullname', 'about_me', 'address', 'education', 'hobbies', 'experience', 'email', 'linkedin_link', 'instagram_link', 'phone_number', 'career_id', 'user_id', 'style']
-
-            stringFields.forEach(key => {
-                if (formData[key] !== null && formData[key] !== '') {
-                    data.append(key, String(formData[key]))
-                }
-            })
-
-            if (formData.photo && formData.photo instanceof File) {
-                data.append('photo', formData.photo)
-            }
+            const data = buildFormData(formData)
 
             const response = await API.post('/portfolio', data, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
                 }
             })
 
-            console.log('Portfolio created:', response.data)
             setPortfolioId(response.data.data?.id || response.data.data?.portfolio_id || '')
             setShowSuccess(true)
             return true
         } catch (err) {
-            let errorMessage = 'Gagal membuat portfolio'
-
-            if (err.response?.data?.message) {
-                errorMessage = typeof err.response.data.message === 'string'
-                    ? err.response.data.message
-                    : 'Terjadi kesalahan pada server'
-            } else if (err.message) {
-                errorMessage = err.message
+            const msg = err.response?.data?.message
+            if (msg && typeof msg === 'object') {
+                // Validasi errors — ambil pesan pertama dari tiap field
+                const first = Object.values(msg).flat()[0]
+                setError(first || 'Terjadi kesalahan validasi')
+            } else {
+                setError(msg || err.message || 'Gagal membuat portfolio')
             }
-
-            setError(errorMessage)
-            console.error('Error creating portfolio:', err)
+            console.error('Error creating portfolio:', err.response?.data || err)
             return false
         } finally {
             setLoading(false)
@@ -84,16 +94,12 @@ const useManagePortfolio = () => {
     }
 
     const fetchPortfolioByUsername = async (username) => {
-        setLoading(true)
-        setError('')
+        if (!username) return null
         try {
             const response = await API.get(`/portfolio/${username}`)
             return response.data.data || null
-        } catch (err) {
-            console.log('Portfolio not found for:', username)
+        } catch {
             return null
-        } finally {
-            setLoading(false)
         }
     }
 
@@ -103,47 +109,27 @@ const useManagePortfolio = () => {
 
         try {
             const token = localStorage.getItem('tokenCareerSync')
-            const data = new FormData()
+            const data = buildFormData(formData, 'PUT')
 
-            console.log('Updating portfolio:', portfolioId)
-
-            const stringFields = ['fullname', 'about_me', 'address', 'education', 'hobbies', 'experience', 'email', 'linkedin_link', 'instagram_link', 'phone_number', 'career_id', 'user_id', 'style']
-
-            stringFields.forEach(key => {
-                if (formData[key] !== null && formData[key] !== '') {
-                    data.append(key, String(formData[key]))
-                }
-            })
-
-            data.append('_method', 'PUT')
-
-            if (formData.photo && formData.photo instanceof File) {
-                data.append('photo', formData.photo)
-            }
-            console.log('Portfolio form data:', Object.fromEntries(data.entries()))
             const response = await API.post(`/portfolio/${portfolioId}`, data, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data',
                 }
             })
 
-            console.log('Portfolio updated:', response.data)
             setPortfolioId(portfolioId)
             setShowSuccess(true)
             return true
         } catch (err) {
-            let errorMessage = 'Gagal memperbarui portfolio'
-
-            if (err.response?.data?.message) {
-                errorMessage = typeof err.response.data.message === 'string'
-                    ? err.response.data.message
-                    : 'Terjadi kesalahan pada server'
-            } else if (err.message) {
-                errorMessage = err.message
+            const msg = err.response?.data?.message
+            if (msg && typeof msg === 'object') {
+                const first = Object.values(msg).flat()[0]
+                setError(first || 'Terjadi kesalahan validasi')
+            } else {
+                setError(msg || err.message || 'Gagal memperbarui portfolio')
             }
-
-            setError(errorMessage)
-            console.error('Error updating portfolio:', err)
+            console.error('Error updating portfolio:', err.response?.data || err)
             return false
         } finally {
             setLoading(false)

@@ -141,11 +141,6 @@ const ManagePortfolio = () => {
                 {/* Form Section */}
                 <div className="flex-1 min-w-0">
                     <div className="bg-white/10 rounded-3xl backdrop-blur-md shadow-xl outline-2 outline-primary p-8">
-                        {error && (
-                            <div className="mb-6 p-4 bg-red-100 border-2 border-red-400 rounded-xl">
-                                <p className="text-red-700 font-semibold text-sm">{error}</p>
-                            </div>
-                        )}
 
                         <form onSubmit={handleSubmit}>
                             {/* Personal Information */}
@@ -407,6 +402,11 @@ const ManagePortfolio = () => {
                                         Reset
                                     </button>
                                 </div>
+                                                        {error && (
+                            <div className="mb-6 p-4 bg-red-100 border-2 border-red-400 rounded-xl">
+                                <p className="text-red-700 font-semibold text-sm">{error}</p>
+                            </div>
+                        )}
                             </div>
                         </form>
                     </div>
